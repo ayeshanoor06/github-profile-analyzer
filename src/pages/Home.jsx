@@ -1,13 +1,23 @@
 import { useState } from "react";
 import SearchBar from "../components/ui/SearchBar";
+import { getUserProfile } from "../services/githubApi";
 
 function Home() {
   const [username, setUsername] = useState("");
+  const [profile, setProfile] = useState(null);
 
-  const handleSearch = (searchedUsername) => {
-    setUsername(searchedUsername);
+  const handleSearch = async (searchedUsername) => {
+    try {
+      const user = await getUserProfile(searchedUsername);
 
-    console.log("Searching for:", searchedUsername);
+      setUsername(searchedUsername);
+      setProfile(user);
+
+      console.log(user);
+    } catch (error) {
+      console.error(error);
+      alert("User not found.");
+    }
   };
 
   return (
@@ -23,11 +33,19 @@ function Home() {
 
       <SearchBar onSearch={handleSearch} />
 
-      {username && (
-        <div className="mt-8 rounded-lg bg-blue-100 border border-blue-300 p-4">
-          <p className="text-blue-800">
-            Searching for: <strong>{username}</strong>
-          </p>
+      {profile && (
+        <div className="mt-8 rounded-lg bg-green-100 border border-green-300 p-5">
+          <h3 className="text-2xl font-bold">
+            {profile.name}
+          </h3>
+
+          <p>@{profile.login}</p>
+
+          <img
+            src={profile.avatar_url}
+            alt={profile.login}
+            className="w-28 rounded-full mt-4"
+          />
         </div>
       )}
     </section>
