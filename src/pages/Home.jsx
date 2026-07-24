@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SearchBar from "../components/ui/SearchBar";
 import { getUserProfile } from "../services/githubApi";
-
+import ProfileCard from "../components/ui/ProfileCard";
 function Home() {
   const [username, setUsername] = useState("");
   const [profile, setProfile] = useState(null);
@@ -32,22 +32,7 @@ function Home() {
       </p>
 
       <SearchBar onSearch={handleSearch} />
-
-      {profile && (
-        <div className="mt-8 rounded-lg bg-green-100 border border-green-300 p-5">
-          <h3 className="text-2xl font-bold">
-            {profile.name}
-          </h3>
-
-          <p>@{profile.login}</p>
-
-          <img
-            src={profile.avatar_url}
-            alt={profile.login}
-            className="w-28 rounded-full mt-4"
-          />
-        </div>
-      )}
+{profile && <ProfileCard profile={profile} />}
     </section>
   );
 }
