@@ -1,3 +1,5 @@
+import SearchBar from "../components/ui/SearchBar";
+
 function Home() {
   return (
     <section className="max-w-7xl mx-auto px-6 py-10">
@@ -9,6 +11,8 @@ function Home() {
         Search any GitHub username and analyze repositories,
         languages, stars, forks, and contribution statistics.
       </p>
+
+      <SearchBar />
     </section>
   );
 }
