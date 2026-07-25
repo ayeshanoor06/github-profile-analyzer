@@ -1,24 +1,14 @@
-import { useState } from "react";
 import SearchBar from "../components/ui/SearchBar";
-import { getUserProfile } from "../services/githubApi";
 import ProfileCard from "../components/ui/ProfileCard";
+import useGitHubProfile from "../hooks/useGitHubProfile";
+
 function Home() {
-  const [username, setUsername] = useState("");
-  const [profile, setProfile] = useState(null);
-
-  const handleSearch = async (searchedUsername) => {
-    try {
-      const user = await getUserProfile(searchedUsername);
-
-      setUsername(searchedUsername);
-      setProfile(user);
-
-      console.log(user);
-    } catch (error) {
-      console.error(error);
-      alert("User not found.");
-    }
-  };
+  const {
+    profile,
+    loading,
+    error,
+    searchProfile,
+  } = useGitHubProfile();
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-10">
@@ -31,8 +21,21 @@ function Home() {
         languages, stars, forks, and contribution statistics.
       </p>
 
-      <SearchBar onSearch={handleSearch} />
-{profile && <ProfileCard profile={profile} />}
+      <SearchBar onSearch={searchProfile} />
+
+      {loading && (
+        <p className="mt-6 text-blue-600">
+          Loading profile...
+        </p>
+      )}
+
+      {error && (
+        <p className="mt-6 text-red-600">
+          {error}
+        </p>
+      )}
+
+      {profile && <ProfileCard profile={profile} />}
     </section>
   );
 }
