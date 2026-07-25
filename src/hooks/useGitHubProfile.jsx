@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { getUserProfile } from "../services/githubApi";
+import {
+  getUserProfile,
+  getUserRepositories,
+} from "../services/githubApi";
 
 function useGitHubProfile() {
   const [profile, setProfile] = useState(null);
+  const [repositories, setRepositories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -11,11 +15,16 @@ function useGitHubProfile() {
       setLoading(true);
       setError("");
 
-      const data = await getUserProfile(username);
+      const [profileData, repositoryData] = await Promise.all([
+        getUserProfile(username),
+        getUserRepositories(username),
+      ]);
 
-      setProfile(data);
+      setProfile(profileData);
+      setRepositories(repositoryData);
     } catch (err) {
       setProfile(null);
+      setRepositories([]);
       setError("GitHub user not found.");
     } finally {
       setLoading(false);
@@ -24,6 +33,7 @@ function useGitHubProfile() {
 
   return {
     profile,
+    repositories,
     loading,
     error,
     searchProfile,
