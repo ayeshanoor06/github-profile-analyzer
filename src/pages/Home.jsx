@@ -1,10 +1,13 @@
 import SearchBar from "../components/ui/SearchBar";
 import ProfileCard from "../components/ui/ProfileCard";
-import useGitHubProfile from "../hooks/useGitHubProfile";
+import RepositoryList from "../components/ui/RepositoryList";
 import LoadingSpinner from "../components/common/LoadingSpinner";
+import useGitHubProfile from "../hooks/useGitHubProfile";
+
 function Home() {
   const {
     profile,
+    repositories,
     loading,
     error,
     searchProfile,
@@ -32,6 +35,10 @@ function Home() {
       )}
 
       {profile && <ProfileCard profile={profile} />}
+
+      {repositories.length > 0 && (
+        <RepositoryList repositories={repositories} />
+      )}
     </section>
   );
 }

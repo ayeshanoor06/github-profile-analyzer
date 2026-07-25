@@ -15,18 +15,25 @@ function useGitHubProfile() {
       setLoading(true);
       setError("");
 
-      const [profileData, repositoryData] = await Promise.all([
-        getUserProfile(username),
-        getUserRepositories(username),
-      ]);
+      const profileData = await getUserProfile(username);
 
-      setProfile(profileData);
-      setRepositories(repositoryData);
-    } catch (err) {
-      setProfile(null);
-      setRepositories([]);
-      setError("GitHub user not found.");
-    } finally {
+const repositoryData = await getUserRepositories(username);
+
+console.log(repositoryData);
+
+setProfile(profileData);
+setRepositories(repositoryData);
+    }
+     catch (err) {
+  console.error("FULL ERROR:", err);
+  console.error("RESPONSE:", err.response);
+  console.error("MESSAGE:", err.message);
+
+  setProfile(null);
+  setRepositories([]);
+  setError("GitHub user not found.");
+}
+    finally {
       setLoading(false);
     }
   };
