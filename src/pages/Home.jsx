@@ -1,7 +1,7 @@
 import SearchBar from "../components/ui/SearchBar";
 import ProfileCard from "../components/ui/ProfileCard";
 import useGitHubProfile from "../hooks/useGitHubProfile";
-
+import LoadingSpinner from "../components/common/LoadingSpinner";
 function Home() {
   const {
     profile,
@@ -23,11 +23,7 @@ function Home() {
 
       <SearchBar onSearch={searchProfile} />
 
-      {loading && (
-        <p className="mt-6 text-blue-600">
-          Loading profile...
-        </p>
-      )}
+      {loading && <LoadingSpinner />}
 
       {error && (
         <p className="mt-6 text-red-600">
