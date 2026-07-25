@@ -1,13 +1,36 @@
 import { useState } from "react";
 import RepositorySearch from "./RepositorySearch";
+import RepositorySort from "./RepositorySort";
 import RepoCard from "./RepoCard";
 
 function RepositoryList({ repositories }) {
   const [searchTerm, setSearchTerm] = useState("");
-
-  const filteredRepositories = repositories.filter((repo) =>
+  const [sortBy, setSortBy] = useState("stars");
+  const filteredRepositories = repositories
+  .filter((repo) =>
     repo.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  )
+  .sort((a, b) => {
+    switch (sortBy) {
+      case "stars":
+        return b.stargazers_count - a.stargazers_count;
+
+      case "forks":
+        return b.forks_count - a.forks_count;
+
+      case "updated":
+        return (
+          new Date(b.updated_at) -
+          new Date(a.updated_at)
+        );
+
+      case "name":
+        return a.name.localeCompare(b.name);
+
+      default:
+        return 0;
+    }
+  });
 
   return (
     <div className="mt-10">
