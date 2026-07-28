@@ -1,14 +1,17 @@
 import { useState } from "react";
+
 import RepositorySearch from "./RepositorySearch";
 import RepositorySort from "./RepositorySort";
 import LanguageFilter from "./LanguageFilter";
 import RepoCard from "./RepoCard";
 import RepositoryStats from "./RepositoryStats";
+import RepositoryModal from "./RepositoryModal";
 
 function RepositoryList({ repositories }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("stars");
   const [selectedLanguage, setSelectedLanguage] = useState("all");
+  const [selectedRepo, setSelectedRepo] = useState(null);
 
   // ✅ Move this INSIDE the component
   const languages = [
@@ -87,10 +90,14 @@ function RepositoryList({ repositories }) {
       <div className="grid gap-6 md:grid-cols-2">
         {filteredRepositories.length > 0 ? (
           filteredRepositories.map((repo) => (
-            <RepoCard
-              key={repo.id}
-              repo={repo}
-            />
+          
+            <div
+  key={repo.id}
+  onClick={() => setSelectedRepo(repo)}
+  className="cursor-pointer transition-transform hover:scale-[1.02]"
+>
+              <RepoCard repo={repo} />
+             </div>
           ))
         ) : (
           <p className="text-center col-span-2 text-gray-500">
@@ -98,6 +105,10 @@ function RepositoryList({ repositories }) {
           </p>
         )}
       </div>
+      <RepositoryModal
+  repo={selectedRepo}
+  onClose={() => setSelectedRepo(null)}
+/>
     </div>
   );
 }
