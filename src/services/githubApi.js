@@ -8,8 +8,14 @@ const githubApi = axios.create({
   },
 });
 
-export const getUserProfile = async (username) => {
-  const response = await githubApi.get(`/users/${username}`);
+export const getUserRepositories = async (
+  username,
+  page = 1
+) => {
+  const response = await githubApi.get(
+    `/users/${username}/repos?sort=updated&per_page=20&page=${page}`
+  );
+
   return response.data;
 };
 
