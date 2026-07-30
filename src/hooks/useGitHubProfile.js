@@ -51,13 +51,35 @@ setPage(1);
     
   };
 
-  return {
-    profile,
-    repositories,
-    loading,
-    error,
-    searchProfile,
-  };
+  const loadMoreRepositories = async () => {
+  try {
+    const nextPage = page + 1;
+
+    const newRepositories =
+      await getUserRepositories(
+        profile.login,
+        nextPage
+      );
+
+    setRepositories((previous) => [
+      ...previous,
+      ...newRepositories,
+    ]);
+
+    setPage(nextPage);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+ return {
+  profile,
+  repositories,
+  loading,
+  error,
+  searchProfile,
+  loadMoreRepositories,
+};
 }
 
 export default useGitHubProfile;
