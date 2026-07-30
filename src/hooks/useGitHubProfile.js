@@ -7,6 +7,7 @@ import {
 function useGitHubProfile() {
   const [profile, setProfile] = useState(null);
   const [repositories, setRepositories] = useState([]);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -17,12 +18,16 @@ function useGitHubProfile() {
 
       const profileData = await getUserProfile(username);
 
-const repositoryData = await getUserRepositories(username);
+const repositoryData = await getUserRepositories(
+  username,
+  1
+);
 
 console.log(repositoryData);
 
 setProfile(profileData);
 setRepositories(repositoryData);
+setPage(1);
     }
      
     catch (err) {
