@@ -11,6 +11,7 @@ function Home() {
     loading,
     error,
     searchProfile,
+    loadMoreRepositories,
   } = useGitHubProfile();
 
   return (
@@ -37,10 +38,10 @@ function Home() {
       {profile && <ProfileCard profile={profile} />}
 
       {repositories.length > 0 && (
-       <RepositoryList
-  repositories={repositories}
-  onLoadMore={loadMoreRepositories}
-/>
+        <RepositoryList
+          repositories={repositories}
+          onLoadMore={loadMoreRepositories}
+        />
       )}
     </section>
   );
