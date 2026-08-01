@@ -37,7 +37,10 @@ function Home() {
       {profile && <ProfileCard profile={profile} />}
 
       {repositories.length > 0 && (
-        <RepositoryList repositories={repositories} />
+       <RepositoryList
+  repositories={repositories}
+  onLoadMore={loadMoreRepositories}
+/>
       )}
     </section>
   );
