@@ -7,7 +7,11 @@ import RepoCard from "./RepoCard";
 import RepositoryStats from "./RepositoryStats";
 import RepositoryModal from "./RepositoryModal";
 
-function RepositoryList({ repositories }) {
+
+  function RepositoryList({
+  repositories,
+  onLoadMore,
+}) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("stars");
   const [selectedLanguage, setSelectedLanguage] = useState("all");
@@ -105,6 +109,15 @@ function RepositoryList({ repositories }) {
           </p>
         )}
       </div>
+
+      <div className="flex justify-center mt-8">
+  <button
+    onClick={onLoadMore}
+    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition"
+  >
+    Load More
+  </button>
+</div>
       <RepositoryModal
   repo={selectedRepo}
   onClose={() => setSelectedRepo(null)}
