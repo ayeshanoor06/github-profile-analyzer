@@ -1,6 +1,8 @@
+import useFavorites from "../../hooks/useFavorites";
 import { NavLink } from "react-router-dom";
 
 function Navbar() {
+  const { favorites } = useFavorites();
   return (
     <nav className="bg-gray-900 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -21,15 +23,19 @@ function Navbar() {
           </NavLink>
 
           <NavLink
-            to="/favorites"
-            className={({ isActive }) =>
-              isActive
-                ? "text-red-400 font-semibold"
-                : "hover:text-red-400"
-            }
-          >
-            ❤️ Favorites
-          </NavLink>
+  to="/favorites"
+  className={({ isActive }) =>
+    isActive
+      ? "text-red-400 font-semibold flex items-center gap-2"
+      : "hover:text-red-400 flex items-center gap-2"
+  }
+>
+  <span>❤️ Favorites</span>
+
+  <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+    {favorites.length}
+  </span>
+</NavLink>
         </div>
       </div>
     </nav>
