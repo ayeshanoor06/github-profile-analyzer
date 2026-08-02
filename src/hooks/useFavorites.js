@@ -23,14 +23,18 @@ function useFavorites() {
 
     alert(`${repo.name} added to favorites ❤️`);
   };
-
-  return {
+   const removeFavorite = (id) => {
+  setFavorites((previous) =>
+    previous.filter((repo) => repo.id !== id)
+  );
+};
+ return {
   favorites,
   addFavorite,
+  removeFavorite,
   isFavorite: (id) =>
     favorites.some((repo) => repo.id === id),
 };
-
 
 }
 

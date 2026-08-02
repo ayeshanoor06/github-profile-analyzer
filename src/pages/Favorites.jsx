@@ -1,7 +1,10 @@
 import useFavorites from "../hooks/useFavorites";
 
 function Favorites() {
-  const { favorites } = useFavorites();
+   const {
+  favorites,
+  removeFavorite,
+} = useFavorites();
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-10">
@@ -36,6 +39,12 @@ function Favorites() {
               >
                 View on GitHub
               </a>
+              <button
+  onClick={() => removeFavorite(repo.id)}
+  className="ml-3 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition"
+>
+  Remove
+</button>
             </div>
           ))}
         </div>
