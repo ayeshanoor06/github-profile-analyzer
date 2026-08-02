@@ -2,11 +2,21 @@ import {
   FaStar,
   FaCodeBranch,
   FaEye,
+  FaRegHeart,
+  FaHeart,
 } from "react-icons/fa";
 
-function RepoCard({ repo }) {
+function RepoCard({
+  repo,
+  onFavorite,
+  isFavorite,
+  onClick,
+}) {
   return (
-    <div className="bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition">
+    <div
+      onClick={onClick}
+      className="bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition cursor-pointer"
+    >
       <h3 className="text-xl font-semibold text-blue-600">
         {repo.name}
       </h3>
@@ -17,18 +27,19 @@ function RepoCard({ repo }) {
 
       <div className="flex flex-wrap gap-5 mt-5 text-gray-700">
         <span className="flex items-center gap-1">
-  <FaStar />
-  {repo.stargazers_count}
-</span>
+          <FaStar />
+          {repo.stargazers_count}
+        </span>
 
         <span className="flex items-center gap-1">
-  <FaCodeBranch />
-  {repo.forks_count}
-</span>
-<span className="flex items-center gap-1">
-  <FaEye />
-  {repo.watchers_count}
-</span>
+          <FaCodeBranch />
+          {repo.forks_count}
+        </span>
+
+        <span className="flex items-center gap-1">
+          <FaEye />
+          {repo.watchers_count}
+        </span>
       </div>
 
       {repo.language && (
@@ -37,14 +48,32 @@ function RepoCard({ repo }) {
         </p>
       )}
 
-      <a
-        href={repo.html_url}
-        target="_blank"
-        rel="noreferrer"
-        className="inline-block mt-5 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-      >
-        View on GitHub
-      </a>
+      <div className="flex justify-between items-center mt-5">
+       <button
+  type="button"
+  onClick={(e) => {
+    e.stopPropagation();
+    onFavorite(repo);
+  }}
+  className="text-2xl"
+>
+  {isFavorite ? (
+    <FaHeart className="text-red-500" />
+  ) : (
+    <FaRegHeart className="text-gray-400 hover:text-red-500" />
+  )}
+</button>
+
+        <a
+          href={repo.html_url}
+          target="_blank"
+          rel="noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+        >
+          View on GitHub
+        </a>
+      </div>
     </div>
   );
 }

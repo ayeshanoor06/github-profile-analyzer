@@ -1,11 +1,11 @@
 import { useState } from "react";
-
 import RepositorySearch from "./RepositorySearch";
 import RepositorySort from "./RepositorySort";
 import LanguageFilter from "./LanguageFilter";
 import RepoCard from "./RepoCard";
 import RepositoryStats from "./RepositoryStats";
 import RepositoryModal from "./RepositoryModal";
+import useFavorites from "../../hooks/useFavorites";
 
 
   function RepositoryList({
@@ -16,7 +16,10 @@ import RepositoryModal from "./RepositoryModal";
   const [sortBy, setSortBy] = useState("stars");
   const [selectedLanguage, setSelectedLanguage] = useState("all");
   const [selectedRepo, setSelectedRepo] = useState(null);
-
+  const {
+  addFavorite,
+  isFavorite,
+} = useFavorites();
   // ✅ Move this INSIDE the component
   const languages = [
     ...new Set(
@@ -95,13 +98,13 @@ import RepositoryModal from "./RepositoryModal";
         {filteredRepositories.length > 0 ? (
           filteredRepositories.map((repo) => (
           
-            <div
+            <RepoCard
   key={repo.id}
+  repo={repo}
+  onFavorite={addFavorite}
+  isFavorite={isFavorite(repo.id)}
   onClick={() => setSelectedRepo(repo)}
-  className="cursor-pointer transition-transform hover:scale-[1.02]"
->
-              <RepoCard repo={repo} />
-             </div>
+/>
           ))
         ) : (
           <p className="text-center col-span-2 text-gray-500">
