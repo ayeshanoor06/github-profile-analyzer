@@ -1,32 +1,36 @@
-import { FaGithub } from "react-icons/fa";
-import { MdDarkMode } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
     <nav className="bg-gray-900 text-white shadow-md">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo Section */}
-        <div className="flex items-center gap-3">
-          <FaGithub className="text-3xl" />
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold">
+          GitHub Profile Analyzer
+        </h1>
 
-          <div>
-            <h1 className="text-xl font-bold">
-              GitHub Profile Analyzer
-            </h1>
+        <div className="flex gap-6">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-400 font-semibold"
+                : "hover:text-blue-400"
+            }
+          >
+            Home
+          </NavLink>
 
-            <p className="text-sm text-gray-400">
-              Analyze any GitHub profile
-            </p>
-          </div>
+          <NavLink
+            to="/favorites"
+            className={({ isActive }) =>
+              isActive
+                ? "text-red-400 font-semibold"
+                : "hover:text-red-400"
+            }
+          >
+            ❤️ Favorites
+          </NavLink>
         </div>
-
-        {/* Right Side */}
-        <button
-          className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg transition"
-        >
-          <MdDarkMode className="text-xl" />
-          <span>Theme</span>
-        </button>
       </div>
     </nav>
   );
