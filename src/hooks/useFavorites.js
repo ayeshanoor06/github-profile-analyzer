@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { toast } from "react-toastify";
 function useFavorites() {
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favorites");
@@ -14,19 +14,29 @@ function useFavorites() {
   }, [favorites]);
 
   const addFavorite = (repo) => {
-    if (favorites.find((item) => item.id === repo.id)) {
-      alert("Already in favorites!");
-      return;
-    }
+  if (favorites.find((item) => item.id === repo.id)) {
+    toast.info("Already in favorites ❤️");
+    return;
+  }
 
-    setFavorites((prev) => [...prev, repo]);
+  setFavorites((prev) => [...prev, repo]);
 
-    alert(`${repo.name} added to favorites ❤️`);
-  };
+  toast.success(`${repo.name} added to favorites ❤️`);
+};
    const removeFavorite = (id) => {
-  setFavorites((previous) =>
-    previous.filter((repo) => repo.id !== id)
+  const removedRepo = favorites.find(
+    (repo) => repo.id === id
   );
+
+  setFavorites((prev) =>
+    prev.filter((repo) => repo.id !== id)
+  );
+
+  if (removedRepo) {
+    toast.error(
+      `${removedRepo.name} removed from favorites`
+    );
+  }
 };
  return {
   favorites,
