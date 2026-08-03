@@ -4,6 +4,9 @@ import RepositoryList from "../components/ui/RepositoryList";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import useGitHubProfile from "../hooks/useGitHubProfile";
 import LanguagePieChart from "../components/charts/LanguagePieChart";
+import StarsBarChart from "../components/charts/StarsBarChart";
+
+
 function Home() {
   const {
     profile,
@@ -38,16 +41,22 @@ function Home() {
       {profile && <ProfileCard profile={profile} />}
 
      {repositories.length > 0 && (
-  <>
+ <>
+  <div className="grid lg:grid-cols-2 gap-6">
     <LanguagePieChart
       repositories={repositories}
     />
 
-    <RepositoryList
+    <StarsBarChart
       repositories={repositories}
-      onLoadMore={loadMoreRepositories}
     />
-  </>
+  </div>
+
+  <RepositoryList
+    repositories={repositories}
+    onLoadMore={loadMoreRepositories}
+  />
+</>
 )}
     </section>
   );
