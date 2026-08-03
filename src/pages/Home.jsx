@@ -3,7 +3,7 @@ import ProfileCard from "../components/ui/ProfileCard";
 import RepositoryList from "../components/ui/RepositoryList";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import useGitHubProfile from "../hooks/useGitHubProfile";
-
+import LanguagePieChart from "../components/charts/LanguagePieChart";
 function Home() {
   const {
     profile,
@@ -37,12 +37,18 @@ function Home() {
 
       {profile && <ProfileCard profile={profile} />}
 
-      {repositories.length > 0 && (
-        <RepositoryList
-          repositories={repositories}
-          onLoadMore={loadMoreRepositories}
-        />
-      )}
+     {repositories.length > 0 && (
+  <>
+    <LanguagePieChart
+      repositories={repositories}
+    />
+
+    <RepositoryList
+      repositories={repositories}
+      onLoadMore={loadMoreRepositories}
+    />
+  </>
+)}
     </section>
   );
 }
