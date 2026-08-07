@@ -6,6 +6,11 @@ import useGitHubProfile from "../hooks/useGitHubProfile";
 import LanguagePieChart from "../components/charts/LanguagePieChart";
 import StarsBarChart from "../components/charts/StarsBarChart";
 import RepositoryInsights from "../components/charts/RepositoryInsights";
+import CompareSearch from "../components/compare/CompareSearch";
+import useCompareProfiles from "../hooks/useCompareProfiles";
+import CompareProfileCard from "../components/compare/CompareProfileCard";
+import CompareStats from "../components/compare/CompareStats";
+import WinnerCard from "../components/compare/WinnerCard";
 
 
 
@@ -19,6 +24,21 @@ function Home() {
     searchProfile,
     loadMoreRepositories,
   } = useGitHubProfile();
+
+  const {
+  firstProfile,
+  secondProfile,
+  loading: compareLoading,
+  error: compareError,
+  compareProfiles,
+} = useCompareProfiles();
+
+  const handleCompare = (
+  userOne,
+  userTwo
+) => {
+  compareProfiles(userOne, userTwo);
+};
 
  return (
   <section>
@@ -34,6 +54,67 @@ function Home() {
       </p>
 
       <SearchBar onSearch={searchProfile} />
+
+
+      <CompareSearch
+  onCompare={handleCompare}
+/>
+
+      {compareLoading && (
+  <p className="text-blue-500 mt-4">
+    Comparing users...
+  </p>
+)}
+
+{compareError && (
+  <p className="text-red-500 mt-4">
+    {compareError}
+  </p>
+)}
+
+{firstProfile && secondProfile && (
+  <section className="mt-10">
+
+    <h2 className="text-3xl font-bold text-white text-center mb-8">
+      User Comparison
+    </h2>
+
+    <div className="grid lg:grid-cols-3 gap-8 items-center">
+
+      <CompareProfileCard
+        profile={firstProfile}
+      />
+
+      <div className="flex justify-center">
+
+        <div className="bg-blue-600 w-24 h-24 rounded-full flex items-center justify-center text-white text-4xl font-bold shadow-xl">
+          VS
+        </div>
+
+      </div>
+
+      <CompareProfileCard
+        profile={secondProfile}
+      />
+
+    </div>
+
+  </section>
+)}
+
+{firstProfile && secondProfile && (
+  <CompareStats
+    firstProfile={firstProfile}
+    secondProfile={secondProfile}
+  />
+
+  
+)}
+
+<WinnerCard
+  firstProfile={firstProfile}
+  secondProfile={secondProfile}
+/>
 
       {loading && <LoadingSpinner />}
 
