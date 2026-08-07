@@ -20,13 +20,15 @@ function Home() {
     loadMoreRepositories,
   } = useGitHubProfile();
 
-  return (
-    <section className="max-w-7xl mx-auto px-6 py-10">
-      <h2 className="text-4xl font-bold text-gray-800">
+ return (
+  <section>
+    <div className="max-w-7xl mx-auto px-6 py-10">
+
+      <h2 className="text-4xl font-bold text-gray-800 dark:text-white">
         Welcome 👋
       </h2>
 
-      <p className="text-gray-600 mt-3">
+      <p className="text-gray-600 dark:text-gray-300 mt-3">
         Search any GitHub username and analyze repositories,
         languages, stars, forks, and contribution statistics.
       </p>
@@ -43,30 +45,27 @@ function Home() {
 
       {profile && <ProfileCard profile={profile} />}
 
-     {repositories.length > 0 && (
-  <>
-    <RepositoryInsights
-      repositories={repositories}
-    />
+      {repositories.length > 0 && (
+        <>
+          <RepositoryInsights repositories={repositories} />
 
-    <div className="grid lg:grid-cols-2 gap-6">
-      <LanguagePieChart
-        repositories={repositories}
-      />
+          <div className="grid lg:grid-cols-2 gap-6">
+            <LanguagePieChart repositories={repositories} />
+            <StarsBarChart repositories={repositories} />
+          </div>
 
-      <StarsBarChart
-        repositories={repositories}
-      />
+          <RepositoryList
+            repositories={repositories}
+            onLoadMore={loadMoreRepositories}
+          />
+        </>
+      )}
+
     </div>
-
-    <RepositoryList
-      repositories={repositories}
-      onLoadMore={loadMoreRepositories}
-    />
-  </>
-)}
-    </section>
-  );
+  </section>
+);
+    
 }
+
 
 export default Home;

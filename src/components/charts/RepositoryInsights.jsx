@@ -1,3 +1,10 @@
+import {
+  FaStar,
+  FaCodeBranch,
+  FaCode,
+  FaDatabase,
+} from "react-icons/fa";
+
 function RepositoryInsights({ repositories }) {
   const totalStars = repositories.reduce(
     (sum, repo) => sum + repo.stargazers_count,
@@ -9,53 +16,67 @@ function RepositoryInsights({ repositories }) {
     0
   );
 
-  const totalLanguages = new Set(
+  const languages = new Set(
     repositories
       .map((repo) => repo.language)
       .filter(Boolean)
-  ).size;
+  );
+
+  const cards = [
+    {
+      title: "Total Stars",
+      value: totalStars.toLocaleString(),
+      icon: <FaStar />,
+      color: "text-yellow-400",
+    },
+    {
+      title: "Total Forks",
+      value: totalForks.toLocaleString(),
+      icon: <FaCodeBranch />,
+      color: "text-green-400",
+    },
+    {
+      title: "Languages",
+      value: languages.size,
+      icon: <FaCode />,
+      color: "text-blue-400",
+    },
+    {
+      title: "Repositories",
+      value: repositories.length,
+      icon: <FaDatabase />,
+      color: "text-purple-400",
+    },
+  ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-      <div className="bg-white rounded-xl shadow-md p-6 text-center">
-        <h3 className="text-gray-500 text-sm">
-          ⭐ Total Stars
-        </h3>
+    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 mt-10">
+      {cards.map((card) => (
+        <div
+          key={card.title}
+          className="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-blue-500 transition"
+        >
+          <div className="flex justify-between items-center">
 
-        <p className="text-3xl font-bold mt-2">
-          {totalStars}
-        </p>
-      </div>
+            <div>
 
-      <div className="bg-white rounded-xl shadow-md p-6 text-center">
-        <h3 className="text-gray-500 text-sm">
-          🍴 Total Forks
-        </h3>
+              <p className="text-slate-400 text-sm">
+                {card.title}
+              </p>
 
-        <p className="text-3xl font-bold mt-2">
-          {totalForks}
-        </p>
-      </div>
+              <h2 className="text-4xl font-bold text-white mt-3">
+                {card.value}
+              </h2>
 
-      <div className="bg-white rounded-xl shadow-md p-6 text-center">
-        <h3 className="text-gray-500 text-sm">
-          💻 Languages
-        </h3>
+            </div>
 
-        <p className="text-3xl font-bold mt-2">
-          {totalLanguages}
-        </p>
-      </div>
+            <div className={`text-4xl ${card.color}`}>
+              {card.icon}
+            </div>
 
-      <div className="bg-white rounded-xl shadow-md p-6 text-center">
-        <h3 className="text-gray-500 text-sm">
-          📁 Repositories
-        </h3>
-
-        <p className="text-3xl font-bold mt-2">
-          {repositories.length}
-        </p>
-      </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
