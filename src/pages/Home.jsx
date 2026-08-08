@@ -12,6 +12,9 @@ import CompareProfileCard from "../components/compare/CompareProfileCard";
 import CompareStats from "../components/compare/CompareStats";
 import WinnerCard from "../components/compare/WinnerCard";
 import RepositoryComparison from "../components/compare/RepositoryComparison";
+import LanguageComparison from "../components/compare/LanguageComparison";
+
+
 
 
 
@@ -116,6 +119,15 @@ function Home() {
   firstProfile={firstProfile}
   secondProfile={secondProfile}
 />
+
+{firstProfile && secondProfile && (
+  <LanguageComparison
+    firstRepositories={firstRepositories}
+    secondRepositories={secondRepositories}
+    firstUsername={firstProfile.login}
+    secondUsername={secondProfile.login}
+  />
+)}
 
 {firstProfile && secondProfile && (
  <RepositoryComparison
