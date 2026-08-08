@@ -1,9 +1,17 @@
 import { useState } from "react";
-import { getUserProfile } from "../services/githubApi";
+import {
+  getUserProfile,
+  getUserRepositories,
+} from "../services/githubApi";
 
 function useCompareProfiles() {
   const [firstProfile, setFirstProfile] = useState(null);
   const [secondProfile, setSecondProfile] = useState(null);
+  const [firstRepositories, setFirstRepositories] =
+  useState([]);
+
+const [secondRepositories, setSecondRepositories] =
+  useState([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -17,14 +25,24 @@ function useCompareProfiles() {
       setLoading(true);
       setError("");
 
-      const [profileOne, profileTwo] =
-        await Promise.all([
-          getUserProfile(usernameOne),
-          getUserProfile(usernameTwo),
-        ]);
+     const [
+  profileOne,
+  profileTwo,
+  repositoriesOne,
+  repositoriesTwo,
+] = await Promise.all([
+  getUserProfile(usernameOne),
+  getUserProfile(usernameTwo),
+  getUserRepositories(usernameOne, 1),
+  getUserRepositories(usernameTwo, 1),
+]);
 
       setFirstProfile(profileOne);
       setSecondProfile(profileTwo);
+
+      setFirstRepositories(repositoriesOne);
+
+      setSecondRepositories(repositoriesTwo);
     } catch (err) {
       console.error(err);
 
@@ -34,6 +52,10 @@ function useCompareProfiles() {
 
       setFirstProfile(null);
       setSecondProfile(null);
+
+      setFirstRepositories([]);
+
+setSecondRepositories([]);
     } finally {
       setLoading(false);
     }
@@ -45,6 +67,9 @@ function useCompareProfiles() {
     loading,
     error,
     compareProfiles,
+    firstRepositories,
+
+secondRepositories,
   };
 }
 

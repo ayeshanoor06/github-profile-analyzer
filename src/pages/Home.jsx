@@ -11,7 +11,7 @@ import useCompareProfiles from "../hooks/useCompareProfiles";
 import CompareProfileCard from "../components/compare/CompareProfileCard";
 import CompareStats from "../components/compare/CompareStats";
 import WinnerCard from "../components/compare/WinnerCard";
-
+import RepositoryComparison from "../components/compare/RepositoryComparison";
 
 
 
@@ -25,14 +25,15 @@ function Home() {
     loadMoreRepositories,
   } = useGitHubProfile();
 
-  const {
+ const {
   firstProfile,
   secondProfile,
+  firstRepositories,
+  secondRepositories,
   loading: compareLoading,
   error: compareError,
   compareProfiles,
 } = useCompareProfiles();
-
   const handleCompare = (
   userOne,
   userTwo
@@ -115,6 +116,15 @@ function Home() {
   firstProfile={firstProfile}
   secondProfile={secondProfile}
 />
+
+{firstProfile && secondProfile && (
+ <RepositoryComparison
+  firstRepositories={firstRepositories}
+  secondRepositories={secondRepositories}
+  firstUsername={firstProfile.login}
+  secondUsername={secondProfile.login}
+/>
+)}
 
       {loading && <LoadingSpinner />}
 

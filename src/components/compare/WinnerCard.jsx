@@ -1,166 +1,72 @@
-import { FaTrophy } from "react-icons/fa";
+function WinnerCard({ firstProfile, secondProfile }) {
 
-function WinnerCard({
-  firstProfile,
-  secondProfile,
-}) {
-  const metrics = [
-    {
-      first: firstProfile.followers,
-      second: secondProfile.followers,
-      title: "Followers",
-    },
-    {
-      first: firstProfile.following,
-      second: secondProfile.following,
-      title: "Following",
-    },
-    {
-      first: firstProfile.public_repos,
-      second: secondProfile.public_repos,
-      title: "Repositories",
-    },
-    {
-      first: firstProfile.public_gists,
-      second: secondProfile.public_gists,
-      title: "Public Gists",
-    },
-  ];
+  if (!firstProfile || !secondProfile) {
+    return null;
+  }
 
-  let firstScore = 0;
-  let secondScore = 0;
+  const firstScore =
+    firstProfile.followers +
+    firstProfile.public_repos +
+    firstProfile.public_gists;
 
-  const wins = [];
-
-  metrics.forEach((metric) => {
-    if (metric.first > metric.second) {
-      firstScore++;
-      wins.push({
-        winner: firstProfile.login,
-        metric: metric.title,
-      });
-    } else if (metric.second > metric.first) {
-      secondScore++;
-      wins.push({
-        winner: secondProfile.login,
-        metric: metric.title,
-      });
-    }
-  });
+  const secondScore =
+    secondProfile.followers +
+    secondProfile.public_repos +
+    secondProfile.public_gists;
 
   let winner = null;
 
-  if (firstScore > secondScore)
+  if (firstScore > secondScore) {
     winner = firstProfile;
-
-  if (secondScore > firstScore)
+  } else if (secondScore > firstScore) {
     winner = secondProfile;
+  }
 
   return (
-    <section className="mt-10">
+    <section className="mt-8">
+      <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-lg">
 
-      <div className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 rounded-2xl p-8 shadow-xl">
-
-        <div className="flex items-center gap-3">
-
-          <FaTrophy className="text-4xl text-white" />
-
-          <h2 className="text-3xl font-bold text-white">
-            Overall Winner
-          </h2>
-
-        </div>
+        <h2 className="text-2xl font-bold text-white mb-6">
+          🏆 Comparison Winner
+        </h2>
 
         {winner ? (
-          <>
-            <div className="flex items-center gap-6 mt-8">
+          <div className="flex flex-col sm:flex-row items-center gap-5">
 
-              <img
-                src={winner.avatar_url}
-                alt={winner.login}
-                className="w-24 h-24 rounded-full border-4 border-white"
-              />
+            <img
+              src={winner.avatar_url}
+              alt={winner.login}
+              className="w-20 h-20 rounded-full border-4 border-blue-500"
+            />
 
-              <div>
+            <div className="text-center sm:text-left">
+              <h3 className="text-2xl font-bold text-white">
+                {winner.name || winner.login}
+              </h3>
 
-                <h3 className="text-4xl font-bold text-white">
-                  {winner.name || winner.login}
-                </h3>
+              <p className="text-slate-400">
+                @{winner.login}
+              </p>
 
-                <p className="text-white/90 mt-2">
-                  @{winner.login}
-                </p>
-
-              </div>
-
+              <p className="text-blue-400 font-semibold mt-2">
+                Higher overall profile score
+              </p>
             </div>
 
-            <div className="mt-8">
-
-              <h4 className="text-xl text-white font-semibold mb-4">
-                Winning Categories
-              </h4>
-
-              <ul className="space-y-2">
-
-                {wins
-                  .filter(
-                    (w) => w.winner === winner.login
-                  )
-                  .map((item) => (
-                    <li
-                      key={item.metric}
-                      className="text-white"
-                    >
-                      ✅ {item.metric}
-                    </li>
-                  ))}
-
-              </ul>
-
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-5 mt-8">
-
-              <div className="bg-white/20 rounded-xl p-5">
-
-                <p className="text-white">
-                  {firstProfile.login}
-                </p>
-
-                <h2 className="text-4xl text-white font-bold mt-2">
-                  {firstScore}
-                </h2>
-
-              </div>
-
-              <div className="bg-white/20 rounded-xl p-5">
-
-                <p className="text-white">
-                  {secondProfile.login}
-                </p>
-
-                <h2 className="text-4xl text-white font-bold mt-2">
-                  {secondScore}
-                </h2>
-
-              </div>
-
-            </div>
-
-          </>
+          </div>
         ) : (
-          <div className="mt-8">
+          <div className="text-center py-4">
+            <p className="text-yellow-400 text-lg font-semibold">
+              🤝 It's a tie!
+            </p>
 
-            <h2 className="text-4xl text-white font-bold">
-              🤝 It's a Tie
-            </h2>
-
+            <p className="text-slate-400 mt-2">
+              Both GitHub profiles have the same score.
+            </p>
           </div>
         )}
 
       </div>
-
     </section>
   );
 }
